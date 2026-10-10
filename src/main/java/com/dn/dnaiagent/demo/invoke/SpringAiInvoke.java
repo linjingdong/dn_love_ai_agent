@@ -19,10 +19,10 @@ public class SpringAiInvoke implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        AssistantMessage assistantMessage = dashScopeChatModel.call(new Prompt("你好啊，你是谁呀？"))
-                .getResult()
-                .getOutput();
-
-        System.out.println(assistantMessage.getText());
+//        AssistantMessage assistantMessage = dashScopeChatModel.call(new Prompt("你好啊，你是谁呀？"))
+//                .getResult()
+//                .getOutput();
+//
+//        System.out.println(assistantMessage.getText());
     }
 }
