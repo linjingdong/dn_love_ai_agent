@@ -2,6 +2,7 @@ package com.dn.dnaiagent.app;
 
 import com.dn.dnaiagent.advisor.MyLoggerAdvisor;
 import com.dn.dnaiagent.chatmemory.DbBasedChatMemory;
+import com.dn.dnaiagent.rag.QueryRewriter;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -32,15 +33,6 @@ public class LoveApp {
             "引导用户详述事情经过、对方反应及自身想法，以便给出专属解决方案。";
 
     private final ChatClient chatClient;
-
-    @Resource
-    private VectorStore loveAppVectorStore;
-
-    @Resource
-    private Advisor loveAppRagCloudAdvisor;
-
-    @Resource
-    private VectorStore pgVectorVectorStore;
 
     /**
      * 初始化 chatClient
@@ -104,6 +96,18 @@ public class LoveApp {
         return loveReport;
     }
 
+    @Resource
+    private VectorStore loveAppVectorStore;
+
+    @Resource
+    private Advisor loveAppRagCloudAdvisor;
+
+    @Resource
+    private VectorStore pgVectorVectorStore;
+
+    @Resource
+    private QueryRewriter queryRewriter;
+
     /**
      * 和 rag 进行对话
      * @param message 用户消息
@@ -111,9 +115,10 @@ public class LoveApp {
      * @return 返回
      */
     public String doChatWithRag(String message, String chatId) {
+        String rewriterQuery = queryRewriter.doQueryRewriter(message);
         String content = chatClient
                 .prompt()
-                .user(message)
+                .user(rewriterQuery)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
                 .advisors(new MyLoggerAdvisor())
