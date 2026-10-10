@@ -2,6 +2,7 @@ package com.dn.dnaiagent.app;
 
 import com.dn.dnaiagent.advisor.MyLoggerAdvisor;
 import com.dn.dnaiagent.chatmemory.DbBasedChatMemory;
+import com.dn.dnaiagent.rag.LoveAppRagCustomAdvisorFactory;
 import com.dn.dnaiagent.rag.QueryRewriter;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -115,19 +116,22 @@ public class LoveApp {
      * @return 返回
      */
     public String doChatWithRag(String message, String chatId) {
-        String rewriterQuery = queryRewriter.doQueryRewriter(message);
+        // 查询重写
+        // String rewriterQuery = queryRewriter.doQueryRewriter(message);
         String content = chatClient
                 .prompt()
-                .user(rewriterQuery)
+                .user(message)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
                 .advisors(new MyLoggerAdvisor())
-                // 本地知识库检索
-                .advisors(new QuestionAnswerAdvisor(loveAppVectorStore))
-                // 知识库服务增强检索
+                // 默认 RAG 知识库检索
+                 .advisors(new QuestionAnswerAdvisor(loveAppVectorStore))
+                // RAG 知识库服务增强检索
                 // .advisors(loveAppRagCloudAdvisor)
-                // pgVector知识库检索
+                // RAG pgVector知识库检索
                 // .advisors(new QuestionAnswerAdvisor(pgVectorVectorStore))
+                // 自定义 RAG 知识库增强检索 （文档过滤 + 上下文查询检索）
+                // .advisors(LoveAppRagCustomAdvisorFactory.createLoveAppRagCustomAdvisor(loveAppVectorStore, "已婚"))
                 .call()
                 .content();
 
