@@ -6,6 +6,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -52,7 +53,6 @@ public class LoveApp {
         ChatMemory chatMemory = new FileBasedChatMemory(fileDir);
         ChatMemory chatMemory = new InMemoryChatMemory();
         **/
-
         chatClient = ChatClient.builder(dashScoreChatModel)
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultAdvisors(
@@ -118,7 +118,7 @@ public class LoveApp {
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
                 .advisors(new MyLoggerAdvisor())
                 // 本地知识库检索
-                // .advisors(new QuestionAnswerAdvisor(loveVectorStore))
+                .advisors(new QuestionAnswerAdvisor(loveAppVectorStore))
                 // 知识库服务增强检索
                 // .advisors(loveAppRagCloudAdvisor)
                 // pgVector知识库检索

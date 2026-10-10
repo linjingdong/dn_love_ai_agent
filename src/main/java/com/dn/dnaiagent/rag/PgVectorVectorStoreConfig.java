@@ -36,7 +36,7 @@ public class PgVectorVectorStoreConfig {
     private LoveAppDocumentLoader loveAppDocumentLoader;
 
     @Bean
-    public VectorStore pgVectorVectorStore(EmbeddingModel dashscopeEmbeddingModel, LoveApp loveApp) {
+    public VectorStore pgVectorVectorStore(EmbeddingModel dashscopeEmbeddingModel) {
         HikariDataSource pgDataSource = new HikariDataSource();
         pgDataSource.setDriverClassName("org.postgresql.Driver");
         pgDataSource.setJdbcUrl(pgUrl);
