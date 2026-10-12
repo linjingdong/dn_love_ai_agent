@@ -4,6 +4,7 @@ import com.dn.dnaiagent.advisor.MyLoggerAdvisor;
 import com.dn.dnaiagent.chatmemory.DbBasedChatMemory;
 import com.dn.dnaiagent.rag.LoveAppRagCustomAdvisorFactory;
 import com.dn.dnaiagent.rag.QueryRewriter;
+import com.dn.dnaiagent.tool.ToolRegistration;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -12,6 +13,8 @@ import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.tool.ToolCallback;
+import org.springframework.ai.tool.ToolCallbacks;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Component;
 
@@ -136,6 +139,29 @@ public class LoveApp {
                 .content();
 
         log.info("content with rag: {}", content);
+        return content;
+    }
+
+    @Resource
+    private ToolCallback[] allTools;
+
+    /**
+     * 给 AI 赋能：工具调用
+     * @param message 用户消息
+     * @param chatId 对话id
+     * @return 返回
+     */
+    public String doChatWithTools(String message, String chatId) {
+        String content = chatClient
+                .prompt()
+                .user(message)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
+                .tools(allTools)
+                .call()
+                .content();
+
+        log.info("content with tool: {}", content);
         return content;
     }
 }
