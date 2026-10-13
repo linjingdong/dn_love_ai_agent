@@ -8,6 +8,10 @@ spring:
       chat:
         options:
           model: qwen-plus
+    mcp:
+      client:
+        stdio:
+          servers-configuration: classpath:mcp-servers.json
 
 server:
   port: 8123
