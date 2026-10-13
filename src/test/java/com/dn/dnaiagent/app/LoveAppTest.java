@@ -82,8 +82,13 @@ class LoveAppTest {
     @Test
     void doChatWithMcp() {
         String chatId = UUID.randomUUID().toString();
-        // 测试地图 MCP
-        String message = "我的另一半居住在上海静安区，请帮我找到 5 公里内合适的约会地点";
+//        // 测试地图 MCP
+//        String message = "我的另一半居住在上海静安区，请帮我找到 5 公里内合适的约会地点";
+//        String answer = loveApp.doChatWithMcp(message, chatId);
+
+        // 测试搜索图片 MCP
+        String message = "我的另一半不开心，帮我搜索一些哄另一半开心的图片，并将图片的链接发给我";
         String answer = loveApp.doChatWithMcp(message, chatId);
+        Assertions.assertNotNull(answer);
     }
 }
