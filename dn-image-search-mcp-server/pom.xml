@@ -9,10 +9,10 @@
         <relativePath/>
     </parent>
     <groupId>com.dn</groupId>
-    <artifactId>dn-image-search-mcp</artifactId>
+    <artifactId>dn-image-search-mcp-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>dn-image-search-mcp</name>
-    <description>dn-image-search-mcp</description>
+    <description>dn-image-search-mcp-server</description>
     <url/>
     <licenses>
         <license/>
