@@ -1,6 +1,6 @@
-package com.dn.dnimagesearchmcp;
+package com.dn.dnimagesearchmcpserver;
 
-import com.dn.dnimagesearchmcp.tools.ImageSearchTool;
+import com.dn.dnimagesearchmcpserver.tools.ImageSearchTool;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.boot.SpringApplication;

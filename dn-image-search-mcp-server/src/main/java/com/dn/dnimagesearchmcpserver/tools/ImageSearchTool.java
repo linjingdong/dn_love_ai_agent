@@ -1,4 +1,4 @@
-package com.dn.dnimagesearchmcp.tools;
+package com.dn.dnimagesearchmcpserver.tools;
 
 
 import cn.hutool.core.util.StrUtil;
