@@ -7,7 +7,7 @@
         "@amap/amap-maps-mcp-server"
       ],
       "env": {
-        "AMAP_MAPS_API_KEY": "045ed039ffe0f3b9d30e9a651aaf7917"
+        "AMAP_MAPS_API_KEY": "amap.api-key"
       }
     },
     "dn-image-search-mcp-server": {
@@ -19,7 +19,9 @@
         "-jar",
         "dn-image-search-mcp-server/target/dn-image-search-mcp-server-0.0.1-SNAPSHOT.jar"
       ],
-      "env": {}
+      "env": {
+        "PIXABAY_API_KEY": "pixabay.api-key"
+      }
     }
   }
 }

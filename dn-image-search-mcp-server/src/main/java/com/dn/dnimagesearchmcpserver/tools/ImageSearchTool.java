@@ -23,14 +23,19 @@ import java.util.stream.Collectors;
 @Service
 public class ImageSearchTool {
 
-    private static final String API_KEY = "58006786-6f5b0c50d34e26ea90c6f3b79";
+//    private static final String API_KEY = "58006786-6f5b0c50d34e26ea90c6f3b79";
 
     private static final String API_URL = "https://pixabay.com/api/";
 
     @Tool(description = "search image from web")
     public String searchImage(@ToolParam(description = "Search query keyword") String query) {
+        String API_KEY = System.getenv("PIXABAY_API_KEY");
+        if (StrUtil.isBlank(API_KEY)) {
+            return "Api key not set";
+        }
+
         try {
-            return String.join(",", searchMediumImages(query));
+            return String.join(",", searchMediumImages(query, API_KEY));
         } catch (Exception e) {
             return "Error search image: " + e.getMessage();
         }
@@ -42,9 +47,9 @@ public class ImageSearchTool {
      * @param query 搜索关键词
      * @return 图片URL列表
      */
-    private List<String> searchMediumImages(String query) {
+    private List<String> searchMediumImages(String query, String apiKey) {
         Map<String, Object> params = new HashMap<>();
-        params.put("key", API_KEY);
+        params.put("key", apiKey);
         params.put("q", query);
         params.put("lang", "zh");
         params.put("per_page", 20);
